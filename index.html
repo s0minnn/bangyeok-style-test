@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>나의 방역 스타일은?</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f5f7f5;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Malgun Gothic",sans-serif;color:#26332b}
+.app{width:min(100%,430px);min-height:100vh;margin:auto;background:#fff;position:relative;overflow:hidden}
+.screen{display:none;min-height:100vh;padding:34px 22px 28px}
+.screen.active{display:flex;flex-direction:column}
+.logo{font-size:14px;font-weight:800;letter-spacing:.04em;color:#5d8b69}
+h1{font-size:32px;line-height:1.28;margin:12px 0 10px;letter-spacing:-.04em}
+h2{font-size:25px;line-height:1.35;margin:12px 0;letter-spacing:-.04em}
+p{line-height:1.65;color:#657068;margin:8px 0}
+.illust{height:210px;border-radius:28px;background:#edf5ee;margin:25px 0;display:flex;align-items:center;justify-content:center;font-size:90px}
+.btn{border:0;border-radius:16px;padding:17px 18px;background:#4f8060;color:#fff;font-size:16px;font-weight:800;cursor:pointer;width:100%;margin-top:12px}
+.btn.secondary{background:#eef3ef;color:#3f624a}
+.progress{font-size:13px;font-weight:800;color:#789080;margin-bottom:10px}
+.question{font-size:23px;font-weight:800;line-height:1.45;margin:10px 0 22px;letter-spacing:-.03em}
+.choice{border:1px solid #dfe7e1;background:#fff;border-radius:16px;padding:16px;text-align:left;font-size:15px;margin:7px 0;cursor:pointer}
+.choice:hover{background:#f5faf6;border-color:#91b39a}
+.resultbox{background:#edf5ee;border-radius:24px;padding:25px;text-align:center;margin:16px 0}
+.resulticon{font-size:72px}
+.resultname{font-size:26px;font-weight:900;margin:10px 0}
+.card{border:1px solid #e3eae4;border-radius:18px;padding:16px;margin:9px 0}
+.card b{display:block;margin-bottom:5px}
+.small{font-size:13px;color:#77837b}
+.spacer{flex:1}
+.footer{font-size:11px;color:#9aa49d;text-align:center;margin-top:18px}
+.share{background:#f8faf8;border-radius:18px;padding:15px;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="app">
+
+<section class="screen active" id="start">
+  <div class="logo">ANIMAL BIOSECURITY</div>
+  <div class="spacer"></div>
+  <div class="illust">🐷🌿</div>
+  <h1>나의 방역 스타일은?</h1>
+  <p>평소 생활습관으로 알아보는<br>나만의 방역 스타일 테스트</p>
+  <p class="small">간단한 질문 6개에 답하고 나의 스타일을 확인해보세요!</p>
+  <div class="spacer"></div>
+  <button class="btn" onclick="startTest()">테스트 시작하기</button>
+</section>
+
+<section class="screen" id="quiz">
+  <div class="progress" id="progress">QUESTION 1 / 6</div>
+  <div class="question" id="question"></div>
+  <div id="choices"></div>
+  <div class="spacer"></div>
+  <div class="footer">나의 생활습관을 가볍게 돌아보는 재미용 테스트입니다.</div>
+</section>
+
+<section class="screen" id="result">
+  <div class="logo">TEST RESULT</div>
+  <div class="resultbox">
+    <div class="resulticon" id="resultIcon"></div>
+    <div class="small">당신의 방역 스타일은</div>
+    <div class="resultname" id="resultName"></div>
+    <p id="resultDesc"></p>
+  </div>
+  <h2>그런데, 일상 속 습관이<br>농장에서는 어떻게 이어질까요?</h2>
+  <p>손 씻기, 신발 관리, 청소, 작은 변화 살피기처럼 우리가 일상에서 하는 행동은 농장의 위생·방역과도 연결될 수 있습니다.</p>
+  <button class="btn" onclick="showInfo()">다음 이야기 보기 →</button>
+  <button class="btn secondary" onclick="restart()">다시 테스트하기</button>
+</section>
+
+<section class="screen" id="info">
+  <div class="logo">FROM DAILY LIFE TO FARM</div>
+  <h2>우리의 일상 속 위생 습관은<br>농장에서는 어떻게 이어질까요?</h2>
+  <div class="card"><b>🧼 손 씻기 → 위생관리</b><span class="small">사람과 장비의 위생관리는 외부 오염원이 농장 안으로 들어오는 것을 줄이는 데 중요합니다.</span></div>
+  <div class="card"><b>👟 신발 관리 → 외부 오염 차단</b><span class="small">농장 출입 시 신발과 의복 등을 관리하는 것은 외부 오염원의 유입을 줄이기 위한 방역 행동과 연결됩니다.</span></div>
+  <div class="card"><b>🧹 청소 → 환경관리</b><span class="small">축사와 장비를 깨끗하게 관리하는 것도 기본적인 위생관리의 한 부분입니다.</span></div>
+  <div class="card"><b>👀 변화 살피기 → 상태 관찰</b><span class="small">가축의 평소와 다른 상태를 세심하게 관찰하는 것은 현장 방역에서 중요한 행동입니다.</span></div>
+  <p><b>우리에게는 일상이지만, 가축에게는 중요한 방역 행동이 될 수 있어요.</b></p>
+  <button class="btn" onclick="showOrg()">가위방은 어떤 일을 할까요? →</button>
+</section>
+
+<section class="screen" id="org">
+  <div class="logo">ABOUT</div>
+  <h2>가축위생방역지원본부</h2>
+  <p>가축전염병의 예방과 확산 방지를 위해 현장의 위생·방역 활동을 지원하는 기관이에요.</p>
+  <div class="card"><b>예방</b><span class="small">가축전염병 예방을 위한 위생·방역 활동을 지원합니다.</span></div>
+  <div class="card"><b>현장</b><span class="small">가축방역 현장에서 필요한 활동을 수행하고 지원합니다.</span></div>
+  <div class="card"><b>대응</b><span class="small">가축전염병 발생 시 확산 방지를 위한 방역 활동을 지원합니다.</span></div>
+  <div class="share">
+    <b>여기까지 봤다면 이제 가위방이 조금 가까워졌나요?</b>
+    <p class="small">이 테스트는 재미를 위한 콘텐츠이며 개인의 실제 위생 수준이나 건강 상태, 질병 발생 가능성을 판단하기 위한 목적이 아닙니다.</p>
+  </div>
+  <button class="btn" onclick="restart()">방역 스타일 다시 알아보기</button>
+</section>
+
+</div>
+
+<script>
+const questions=[
+["집에 들어오면 가장 먼저 하는 행동은?","손을 씻는다","옷을 갈아입는다","신발을 정리한다","침대나 소파에 눕는다"],
+["샤워할 때 나는?","정해진 순서대로 한다","빠르게 끝내는 편이다","구석구석 꼼꼼하게 한다","그날그날 다르다"],
+["외출 후 신발은 어떻게 하나요?","바로 신발장에 넣는다","현관에서 먼지를 턴다","상태를 확인하고 정리한다","그냥 아무렇게나 둔다"],
+["방이 조금 지저분해지면?","바로 청소한다","정해둔 날에 청소한다","눈에 보이는 것부터 치운다","크게 신경 쓰지 않는다"],
+["외출 후 옷에 먼지가 많이 묻었다면?","바로 갈아입는다","먼지만 털고 입는다","세탁할 옷과 구분한다","다음에 갈아입는다"],
+["평소와 다르게 몸이 조금 이상하다면?","바로 상태를 확인한다","하루 정도 지켜본다","주변 사람에게 물어본다","크게 신경 쓰지 않는다"]
+];
+const types=[
+["🧼","꼼꼼한 위생관리형","작은 청결도 놓치지 않고 꼼꼼하게 관리하는 편이에요."],
+["🚪","철저한 예방관리형","문제가 생기기 전에 미리 관리하고 예방하려는 편이에요."],
+["👀","세심한 관찰형","작은 변화도 살펴보고 주변 상태를 세심하게 확인하는 편이에요."],
+["⚡","빠른 대응형","상황을 확인하면 빠르게 행동으로 옮기는 편이에요."]
+];
+let q=0, scores=[0,0,0,0];
+
+function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");window.scrollTo(0,0)}
+function startTest(){q=0;scores=[0,0,0,0];renderQuestion();show("quiz")}
+function renderQuestion(){
+ document.getElementById("progress").textContent=`QUESTION ${q+1} / ${questions.length}`;
+ document.getElementById("question").textContent=questions[q][0];
+ const box=document.getElementById("choices"); box.innerHTML="";
+ questions[q].slice(1).forEach((x,i)=>{const b=document.createElement("button");b.className="choice";b.textContent=x;b.onclick=()=>answer(i);box.appendChild(b)});
+}
+function answer(i){
+ scores[i]++;
+ q++;
+ if(q<questions.length) renderQuestion(); else showResult();
+}
+function showResult(){
+ let max=Math.max(...scores), idx=scores.indexOf(max);
+ document.getElementById("resultIcon").textContent=types[idx][0];
+ document.getElementById("resultName").textContent=types[idx][1];
+ document.getElementById("resultDesc").textContent=types[idx][2];
+ show("result");
+}
+function showInfo(){show("info")}
+function showOrg(){show("org")}
+function restart(){startTest()}
+</script>
+</body>
+</html>
